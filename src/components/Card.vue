@@ -13,7 +13,7 @@
                 <span class="tag">#travel</span>
                 <span class="tag">#winter</span>
             </div>
-            <span> {{ dato.fecha }} </span>
+            <span> {{ dato.cod }} </span>
         </div>
     </div>
 </template>

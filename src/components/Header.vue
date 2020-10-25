@@ -58,19 +58,28 @@ export default {
             .catch(e=>console.error(e))
         },
         createCard(){
+            const self=this
             db.collection("prueba")
                 .orderBy("cod","desc")
                 .limit(1)
                 .get()
                 .then(x=>{
+                    if(!x.docs.length){
+                        const cod=1
+                        self.firebaseCreate(cod)
+                        return
+                    }
                     x.forEach(x => {
-                        const cod=x.data().cod+1
-                        db.collection("prueba").add({
-                            fecha:firestore.FieldValue.serverTimestamp(),
-                            cod
-                        })
+                        const cod=parseInt(x.data().cod)+1
+                        self.firebaseCreate(cod)
                     });
-                })
+                }).catch(e=>console.log(e))
+        },
+        firebaseCreate(cod){
+            db.collection("prueba").add({
+                fecha:firestore.FieldValue.serverTimestamp(),
+                cod
+            }).catch(e=>console.log(e))
         }
     }
 }
