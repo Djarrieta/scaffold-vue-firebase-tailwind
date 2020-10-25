@@ -9,6 +9,7 @@
                     <button>About</button>
                 </router-link>
                 <button @click="createCard">+</button>
+                <input type="file" id="myfile" name="myfile" multiple>
             </div>
             <span>{{userEmail}}</span>
             <div>

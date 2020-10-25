@@ -78,8 +78,6 @@ export default {
       this.updateShownData()
     },
     updateShownData(){
-      
-      
       const query=db.collection("prueba")
         .orderBy("cod","asc")
         .startAt(this.pages[this.selectedPage-1])
@@ -104,7 +102,7 @@ export default {
     nextPage(){
       if(this.selectedPage<this.pages.length){
         this.selectedPage++
-        this.updateHomeView()
+        this.updateShownData()
       }
     }
   }
