@@ -7,11 +7,12 @@
         :key="i"
         :dato="dato" ></Card>
     </div>
-    <div class="w-full bg-gray-600 p-2 text-center">
+    <div class="w-full bg-gray-400 p-2 text-center">
       <button 
         class=" text-xs"
         @click="seeMore">Ver Más</button>
     </div>
+    <AddBtn/>
   </div>
 </template>
 
@@ -20,11 +21,12 @@ import {db} from "@/main.js"
 import firebase from "firebase"
 import Header from "@/components/Header"
 import Card from "@/components/Card"
+import AddBtn from "@/components/AddBtn"
 
 export default {
   name: 'Home',
   components: {
-    Header,Card
+    Header,Card,AddBtn
   },
   props:["dato"],
   data(){
@@ -32,7 +34,7 @@ export default {
       userId:"",
       userEmail:"",
       datos:[],
-      inicialLoad:5,
+      inicialLoad:3,
       loadMore:2
     }
   },
@@ -46,12 +48,11 @@ export default {
       }
     })
 
-    //database
+    //database onSnaptshot
     db.collection("prueba")
       .orderBy("cod","desc")
-      .limit(3)
-      .get()
-      .then(x=>{
+      .limit(this.inicialLoad)
+      .onSnapshot(x=>{
         this.datos=[]
         x.forEach(x=> {
           this.datos.push(x.data())
@@ -62,13 +63,14 @@ export default {
     seeMore(){
       const lastCod= this.datos[this.datos.length-1].cod
       db.collection("prueba")
-      .orderBy("cod","desc")
-      .startAfter(lastCod)
-      .limit(2)
-      .get()
-      .then(x=>{x.forEach(x=>{
-        this.datos.push(x.data())
-      })})
+        .orderBy("cod","desc")
+        .startAfter(lastCod)
+        .limit(this.loadMore)
+        .get()
+        .then(x=>{x.forEach(x=>{
+          this.inicialLoad++
+          this.datos.push(x.data())
+        })})
     }
   }
 }

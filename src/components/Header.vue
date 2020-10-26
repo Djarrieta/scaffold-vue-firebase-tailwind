@@ -8,7 +8,6 @@
                 <router-link to="/about">
                     <button>About</button>
                 </router-link>
-                <button @click="createCard">+</button>
             </div>
             <span>{{userEmail}}</span>
             <div>
@@ -29,7 +28,7 @@
 </template>
 
 <script>
-import firebase, { firestore } from "firebase"
+
 import {db} from "@/main.js"
 
 export default {
@@ -56,32 +55,7 @@ export default {
             .then(()=>this.userEmail="")
             .catch(e=>console.error(e))
         },
-        createCard(){
-            const self=this
-            db.collection("prueba")
-                .orderBy("cod","desc")
-                .limit(1)
-                .get()
-                .then(x=>{
-                    if(!x.docs.length){
-                        const cod=1
-                        self.firebaseCreate(cod)
-                        return
-                    }
-                    x.forEach(x => {
-                        const cod=parseInt(x.data().cod)+1
-                        self.firebaseCreate(cod)
-                    });
-                }).catch(e=>console.log(e))
-        },
-        firebaseCreate(cod){
-            const newCard=db.collection("prueba").doc()
-            newCard.set({
-                cod,
-                fecha:firestore.FieldValue.serverTimestamp(),
-                id:newCard.id
-            }).catch(e=>console.log(e))
-        }
+
     }
 }
 </script>
