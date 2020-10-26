@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { firestore } from "firebase"
 import {db} from "@/main.js"
 
 export default {
