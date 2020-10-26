@@ -9,7 +9,6 @@
                     <button>About</button>
                 </router-link>
                 <button @click="createCard">+</button>
-                <input type="file" id="myfile" name="myfile" multiple>
             </div>
             <span>{{userEmail}}</span>
             <div>
@@ -25,7 +24,6 @@
                     v-if="!user"><button>Sign Up</button>
                 </router-link>
             </div>
-            
         </div>
     </div>
 </template>
@@ -77,9 +75,11 @@ export default {
                 }).catch(e=>console.log(e))
         },
         firebaseCreate(cod){
-            db.collection("prueba").add({
+            const newCard=db.collection("prueba").doc()
+            newCard.set({
+                cod,
                 fecha:firestore.FieldValue.serverTimestamp(),
-                cod
+                id:newCard.id
             }).catch(e=>console.log(e))
         }
     }

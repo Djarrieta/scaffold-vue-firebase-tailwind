@@ -10,18 +10,7 @@
     <div class="w-full bg-gray-600 p-2 text-center">
       <button 
         class=" text-xs"
-        @click="prevPage">Prev</button>
-      <button 
-        v-for="(p,i) in pages" 
-        :key="i"
-        @click="selectPage(i+1)"
-        class="text-xs"
-        :class="i+1==selectedPage ? 'bg-gray-500' : 'bg-blue-800'"
-        > 
-          {{i+1}} </button>
-      <button 
-        class=" text-xs"
-        @click="nextPage">Next</button>
+        @click="seeMore">Ver Más</button>
     </div>
   </div>
 </template>
@@ -43,9 +32,8 @@ export default {
       userId:"",
       userEmail:"",
       datos:[],
-      maxPerPage:5,
-      pages:[],
-      selectedPage:1
+      inicialLoad:5,
+      loadMore:2
     }
   },
   created(){
@@ -59,51 +47,28 @@ export default {
     })
 
     //database
-      db.collection("prueba")
-        .onSnapshot(x=>{
-          this.updateDataBase(x.size)
-        })
+    db.collection("prueba")
+      .orderBy("cod","desc")
+      .limit(3)
+      .get()
+      .then(x=>{
+        this.datos=[]
+        x.forEach(x=> {
+          this.datos.push(x.data())
+        });
+      })
   },
   methods:{
-    updateDataBase(totalElements){
-      
-      if(!totalElements){return}
-
-      let startAt=1
-      this.pages=[]
-      while(startAt<=totalElements){
-        this.pages.push(startAt)
-        startAt+=this.maxPerPage
-      }
-      this.updateShownData()
-    },
-    updateShownData(){
-      const query=db.collection("prueba")
-        .orderBy("cod","asc")
-        .startAt(this.pages[this.selectedPage-1])
-        .limit(this.maxPerPage)
-
-      query.get().then(info=>{
-        this.datos=[]
-        info.forEach(d => {
-          this.datos.push(d.data())
+    seeMore(){
+      const lastCod= this.datos[this.datos.length-1].cod
+      db.collection("prueba")
+      .orderBy("cod","desc")
+      .startAfter(lastCod)
+      .limit(2)
+      .get()
+      .then(x=>{x.forEach(x=>{
+        this.datos.push(x.data())
       })})
-    },
-    selectPage(pageNumber){
-      this.selectedPage=pageNumber
-      this.updateShownData()
-    },
-    prevPage(){
-      if(this.selectedPage>1){
-        this.selectedPage--
-        this.updateShownData()
-      }
-    },
-    nextPage(){
-      if(this.selectedPage<this.pages.length){
-        this.selectedPage++
-        this.updateShownData()
-      }
     }
   }
 }

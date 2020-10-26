@@ -13,17 +13,25 @@
                 <span class="tag">#travel</span>
                 <span class="tag">#winter</span>
             </div>
-            <span> {{ dato.cod }} </span>
+            <div class="flex justify-around mb-2">
+                <span> {{ dato.cod }} </span>
+                <button @click="deleteCard">Borrar</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import {db} from "@/main.js"
 
 export default {
     name:"Card",
     props:['dato'],
-
-
+    methods:{
+        deleteCard(){
+            db.collection("prueba").doc(this.dato.id).delete()
+            .catch(e=>console.error(e))
+        }
+    }
 }
 </script>
