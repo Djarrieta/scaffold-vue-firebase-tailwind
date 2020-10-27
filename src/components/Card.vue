@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <div class="max-w-sm rounded overflow-hidden shadow-lg mx-auto my-2 md:mx-3">
+        <div class="max-w-sm rounded overflow-hidden shadow-lg mx-auto my-2 md:mx-3 bg-white">
             <img class="" src="https://i.imgur.com/XJtP8b1.png" alt="Sunset in the mountains">
             <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
@@ -16,6 +16,7 @@
             <div class="flex justify-around mb-2">
                 <span> {{ dato.cod }} </span>
                 <button @click="deleteCard">Borrar</button>
+                <button @click="detailCard">Detalles</button>
             </div>
         </div>
     </div>
@@ -31,6 +32,9 @@ export default {
         deleteCard(){
             db.collection("prueba").doc(this.dato.id).delete()
             .catch(e=>console.error(e))
+        },
+        detailCard(){
+            this.$router.replace(`/card/${this.dato.id}`)
         }
     }
 }

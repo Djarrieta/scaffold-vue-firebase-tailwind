@@ -1,9 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import firebase from "firebase"
+
 import Home from '@/views/Home'
 import SignIn from '@/views/SignIn'
 import SignUp from '@/views/SignUp'
 import About from '@/views/About'
-import firebase from "firebase"
+import CardDetail from '@/views/CardDetail'
+
 
 const routes = [
   {
@@ -29,7 +32,14 @@ const routes = [
       autentificado:true
     }
   },
-
+  {
+    path: '/card/:id',
+    name: 'CardDetail',
+    component: CardDetail,
+    meta:{
+      autentificado:true
+    }
+  },
 ]
 
 const router = createRouter({

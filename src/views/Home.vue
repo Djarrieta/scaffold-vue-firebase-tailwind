@@ -1,12 +1,13 @@
 <template>
   <div class="bg-gray-100 min-h-screen flex flex-col justify-between">
-    <Header></Header>
-    <div class="container m-auto pt-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <Header/>
+    <div v-if="!showLoading" class="container m-auto pt-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       <Card 
         v-for="(dato,i) in datos" 
         :key="i"
         :dato="dato" ></Card>
     </div>
+    <Loading v-if="showLoading"/>
     <div class="w-full bg-gray-400 p-2 text-center">
       <button 
         class=" text-xs"
@@ -22,11 +23,12 @@ import firebase from "firebase"
 import Header from "@/components/Header"
 import Card from "@/components/Card"
 import AddBtn from "@/components/AddBtn"
+import Loading from "@/components/Loading"
 
 export default {
   name: 'Home',
   components: {
-    Header,Card,AddBtn
+    Header,Card,AddBtn,Loading
   },
   props:["dato"],
   data(){
@@ -35,7 +37,8 @@ export default {
       userEmail:"",
       datos:[],
       inicialLoad:3,
-      loadMore:2
+      loadMore:2,
+      showLoading:false
     }
   },
   created(){
@@ -47,7 +50,7 @@ export default {
         self.userEmail=user.email
       }
     })
-
+    this.showLoading=true
     //database onSnaptshot
     db.collection("prueba")
       .orderBy("cod","desc")
@@ -57,6 +60,7 @@ export default {
         x.forEach(x=> {
           this.datos.push(x.data())
         });
+        this.showLoading=false
       })
   },
   methods:{

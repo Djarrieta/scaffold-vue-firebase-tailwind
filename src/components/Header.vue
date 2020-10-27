@@ -1,16 +1,16 @@
 <template>
     <div class=" bg-gray-400">
         <div class="container m-auto p-2 flex justify-between">
-            <div>
+            <div class="flex flex-col">
                 <router-link to="/">
-                    <button>🏠</button>
+                    <button >🏠</button>
                 </router-link>
                 <router-link to="/about">
                     <button>About</button>
                 </router-link>
             </div>
-            <span>{{userEmail}}</span>
-            <div>
+            
+            <div class="flex flex-col">
                 <button 
                     @click="signOut" 
                     v-if="user">
@@ -22,6 +22,7 @@
                     to="/signup"
                     v-if="!user"><button>Sign Up</button>
                 </router-link>
+                <span>{{userEmail}}</span>
             </div>
         </div>
     </div>
