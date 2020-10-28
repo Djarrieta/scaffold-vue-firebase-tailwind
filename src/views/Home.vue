@@ -36,8 +36,8 @@ export default {
       userId:"",
       userEmail:"",
       datos:[],
-      inicialLoad:3,
-      loadMore:2,
+      inicialLoad:10,
+      loadMore:5,
       showLoading:false
     }
   },
