@@ -7,12 +7,18 @@ import SignUp from '@/views/SignUp'
 import About from '@/views/About'
 import CardDetail from '@/views/CardDetail'
 
+import Inicio from '@/views/Inicio'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/inicio',
+    name: 'Inicio',
+    component: Inicio
   },
   {
     path: '/signin',

@@ -5,8 +5,15 @@ module.exports = {
   },
   purge: [],
   theme: {
+    colors:{
+      verde:{
+        chillon:'#96CC0C'
+      }
+    },
     extend: {},
   },
   variants: {},
   plugins: [],
 }
+
+

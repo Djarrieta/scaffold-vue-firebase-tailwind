@@ -8,8 +8,6 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
-createApp(App).use(router).mount('#app')
-
 var firebaseConfig = {
     apiKey: "AIzaSyBPF_lRfY-lJBxdJkpgyRB3O36hoP-3LVs",
     authDomain: "scaffold-vue-firebase-tailwind.firebaseapp.com",
@@ -24,10 +22,6 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const storage=firebaseApp.storage();
 
-/* const messaging =firebase.messaging();
-
-messaging.getToken()
-    .then(currenToken=>console.log(currenToken))
-    .catch(e=>console.log(e)) */
+createApp(App).use(router).mount('#app')
 
 export { db, firebaseApp, storage};
